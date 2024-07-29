@@ -250,3 +250,4 @@ Issues? Report them at https://github.com/firebase/firebase-tools/issues and att
 [debug] [2024-07-20T21:24:25.715Z] Finishing up request with event=finish {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-api"},"extension":{},"message":"Finishing up request with event=finish"}}
 [debug] [2024-07-20T21:24:25.715Z] Finishing up request with event=close {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-api"},"extension":{},"message":"Finishing up request with event=close"}}
 [debug] [2024-07-20T21:24:25.715Z] [work-queue] {"queuedWork":[],"queueLength":0,"runningWork":[],"workRunningCount":0}
+[debug] [2024-07-23T03:41:17.653Z] [worker-us-central1-api-58f97881-d700-4851-aeab-35fa2b91516f]: exited {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-api"},"extension":{},"message":"[worker-us-central1-api-58f97881-d700-4851-aeab-35fa2b91516f]: exited"}}
