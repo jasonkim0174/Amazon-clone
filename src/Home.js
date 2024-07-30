@@ -1,8 +1,28 @@
-import React from "react";
+import React, { useState } from "react";
 import "./Home.css";
 import Product from "./Product";
 
 function Home() {
+  const [basketMessage, setBasketMessage] = useState({});
+  const [basketCounts, setBasketCounts] = useState({});
+
+  const handleAddToBasket = (id, title, image) => {
+    const newCount = (basketCounts[id] || 0) + 1;
+    setBasketCounts(prevCounts => ({
+      ...prevCounts,
+      [id]: newCount
+    }));
+
+    setBasketMessage({
+      message: `${title} has been added to basket${newCount > 1 ? ` (${newCount})` : ""}`,
+      image: image
+    });
+
+    setTimeout(() => {
+      setBasketMessage({});
+    }, 3000); // Hide message after 3 seconds
+  };
+
   return (
     <div className="home">
       <div className="home__container">
@@ -15,27 +35,30 @@ function Home() {
         <div className="home__row">
           <Product
             id="12321341"
-            title="The Lean Startup: How Constant Innovation Creates Radically Successful Businesses Paperback"
-            price={11.96}
-            rating={5}
-            image="https://images-na.ssl-images-amazon.com/images/I/51Zymoq7UnL._SX325_BO1,204,203,200_.jpg"
+            title="Airpods Pro (2nd Generation)"
+            price={159.99}
+            rating={4}
+            image="https://i.imgur.com/tudkyaA.png"
+            onAddToBasket={handleAddToBasket}
           />
           <Product
             id="49538094"
-            title="Kenwood kMix Stand Mixer for Baking, Stylish Kitchen Mixer with K-beater, Dough Hook and Whisk, 5 Litre Glass Bowl"
-            price={239.99}
-            rating={4}
-            image="https://images-na.ssl-images-amazon.com/images/I/81O%2BGNdkzKL._AC_SX450_.jpg"
+            title="Nike Tottenham Hotspur 23/24 Home Jersey"
+            price={109.99}
+            rating={5}
+            image="https://i.imgur.com/U6ElhTW.jpeg"
+            onAddToBasket={handleAddToBasket}
           />
         </div>
 
         <div className="home__row">
           <Product
             id="4903850"
-            title="Samsung LC49RG90SSUXEN 49' Curved LED Gaming Monitor"
-            price={199.99}
+            title="Body-Solid Rubber Coated Hex Dumbbells Sets 5 to 50 lbs"
+            price={45.99}
             rating={3}
-            image="https://images-na.ssl-images-amazon.com/images/I/71Swqqe7XAL._AC_SX466_.jpg"
+            image="https://i.imgur.com/p17qm8o.jpeg"
+            onAddToBasket={handleAddToBasket}
           />
           <Product
             id="23445930"
@@ -43,13 +66,15 @@ function Home() {
             price={98.99}
             rating={5}
             image="https://media.very.co.uk/i/very/P6LTG_SQ1_0000000071_CHARCOAL_SLf?$300x400_retinamobilex2$"
+            onAddToBasket={handleAddToBasket}
           />
           <Product
             id="3254354345"
-            title="New Apple iPad Pro (12.9-inch, Wi-Fi, 128GB) - Silver (4th Generation)"
-            price={598.99}
+            title="Computer Desk with Two Drawers, 50 inch Desk with LED lights and Power Outlets"
+            price={235.99}
             rating={4}
-            image="https://images-na.ssl-images-amazon.com/images/I/816ctt5WV5L._AC_SX385_.jpg"
+            image="https://i.imgur.com/iCFZ5rV.jpeg"
+            onAddToBasket={handleAddToBasket}
           />
         </div>
 
@@ -60,9 +85,17 @@ function Home() {
             price={1094.98}
             rating={4}
             image="https://images-na.ssl-images-amazon.com/images/I/6125mFrzr6L._AC_SX355_.jpg"
+            onAddToBasket={handleAddToBasket}
           />
         </div>
       </div>
+
+      {basketMessage.message && (
+        <div className="basketMessage">
+          <img src={basketMessage.image} alt="Product" className="basketMessage__image" />
+          <span>{basketMessage.message}</span>
+        </div>
+      )}
     </div>
   );
 }

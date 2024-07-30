@@ -24,14 +24,12 @@ function Payment() {
     useEffect(() => {
         const getClientSecret = async () => {
             try {
-                const response = await axios({
-                    method: 'post',
-                    url: `http://localhost:5001/clone-53f4b/us-central1/api/payments/create?total=${getBasketTotal(basket) * 100}`
-                });
+                const response = await axios.post(`/payments/create?total=${getBasketTotal(basket) * 100}`);
                 console.log("Response from backend:", response.data);
                 setClientSecret(response.data.clientSecret);
             } catch (error) {
                 console.error("Error fetching client secret:", error);
+                setError("Error fetching client secret.");
             }
         };
 
@@ -48,33 +46,58 @@ function Payment() {
             return;
         }
 
-        const payload = await stripe.confirmCardPayment(clientSecret, {
-            payment_method: {
-                card: elements.getElement(CardElement)
+        const cardElement = elements.getElement(CardElement);
+        if (!cardElement) {
+            setError("Card details are not available.");
+            setProcessing(false);
+            return;
+        }
+
+        try {
+            const payload = await stripe.confirmCardPayment(clientSecret, {
+                payment_method: {
+                    card: cardElement
+                }
+            });
+
+            console.log("Payload:", payload);
+
+            if (payload.error) {
+                setError(`Payment failed: ${payload.error.message}`);
+                setProcessing(false);
+            } else {
+                const paymentIntent = payload.paymentIntent;
+
+                if (!paymentIntent) {
+                    setError("PaymentIntent is not available.");
+                    setProcessing(false);
+                    return;
+                }
+
+                const userDocRef = doc(db, 'users', user?.uid);
+                const orderDocRef = doc(collection(userDocRef, 'orders'), paymentIntent.id);
+
+                await setDoc(orderDocRef, {
+                    basket: basket,
+                    amount: paymentIntent.amount,
+                    created: paymentIntent.created
+                });
+
+                setSucceeded(true);
+                setError(null);
+                setProcessing(false);
+
+                dispatch({
+                    type: 'EMPTY_BASKET'
+                });
+
+                navigate('/orders');
             }
-        }).then(async ({ paymentIntent }) => {
-            const userDocRef = doc(db, 'users', user?.uid);
-            const orderDocRef = doc(collection(userDocRef, 'orders'), paymentIntent.id);
-
-            await setDoc(orderDocRef, {
-                basket: basket,
-                amount: paymentIntent.amount,
-                created: paymentIntent.created
-            });
-
-            setSucceeded(true);
-            setError(null);
+        } catch (error) {
+            console.error("Error during payment processing:", error);
+            setError(`Payment failed: ${error.message}`);
             setProcessing(false);
-
-            dispatch({
-                type: 'EMPTY_BASKET'
-            });
-
-            navigate('/orders');
-        }).catch(error => {
-            setError(error.message);
-            setProcessing(false);
-        });
+        }
     };
 
     const handleChange = event => {
@@ -105,7 +128,7 @@ function Payment() {
                         <h3>Review items and delivery</h3>
                     </div>
                     <div className='payment__items'>
-                        {basket.map(item => (
+                        {basket?.map(item => (
                             <CheckoutProduct
                                 key={item.id} // Add key prop to avoid React warnings
                                 id={item.id}
