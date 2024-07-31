@@ -22,9 +22,7 @@ jobs:
         run: npm install --legacy-peer-deps
 
       - name: Build the project
-        run: |
-          export NODE_OPTIONS=--openssl-legacy-provider
-          npm run build
+        run: node --openssl-legacy-provider ./node_modules/.bin/react-scripts build
 
       - name: Deploy to Firebase Hosting
         uses: FirebaseExtended/action-hosting-deploy@v0
