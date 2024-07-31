@@ -34,7 +34,11 @@ function Login() {
     return (
         <div className='login'>
             <Link to='/'>
-                <img className='login__logo' src='https://upload.wikimedia.org/wikipedia/commons/thumb/a/a9/Amazon_logo.svg/1024px-Amazon_logo.svg.png' />
+                <img 
+                    className='login__logo' 
+                    src='https://upload.wikimedia.org/wikipedia/commons/thumb/a/a9/Amazon_logo.svg/1024px-Amazon_logo.svg.png' 
+                    alt="Amazon Logo" // Added alt attribute
+                />
             </Link>
 
             <div className='login__container'>
