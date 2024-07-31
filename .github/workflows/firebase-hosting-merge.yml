@@ -21,9 +21,11 @@ jobs:
       - name: Install dependencies
         run: npm install --legacy-peer-deps
 
+      - name: Install cross-env
+        run: npm install cross-env
+
       - name: Build the project
-        run: |
-          NODE_OPTIONS=--openssl-legacy-provider npm run build
+        run: cross-env NODE_OPTIONS=--openssl-legacy-provider npm run build
 
       - name: Deploy to Firebase Hosting
         uses: FirebaseExtended/action-hosting-deploy@v0

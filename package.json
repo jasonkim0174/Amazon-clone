@@ -22,11 +22,12 @@
     "react-dom": "^18.3.1",
     "react-router-dom": "^6.24.1",
     "react-scripts": "^4.0.3",
-    "web-vitals": "^2.1.4"
+    "web-vitals": "^2.1.4",
+    "cross-env": "^7.0.3"  // Add this line
   },
   "scripts": {
-    "start": "NODE_OPTIONS=--openssl-legacy-provider react-scripts start",
-    "build": "NODE_OPTIONS=--openssl-legacy-provider react-scripts build",
+    "start": "react-scripts start",
+    "build": "cross-env NODE_OPTIONS=--openssl-legacy-provider react-scripts build",  // Update this line
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
