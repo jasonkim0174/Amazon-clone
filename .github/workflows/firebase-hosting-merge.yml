@@ -16,13 +16,15 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v2
         with:
-          node-version: '18'  # Update to Node.js 18 or 20
+          node-version: '16'  # Ensure Node.js 16
 
       - name: Install dependencies
         run: npm install --legacy-peer-deps
 
       - name: Build the project
-        run: npm run build
+        run: |
+          export NODE_OPTIONS=--openssl-legacy-provider
+          npm run build
 
       - name: Deploy to Firebase Hosting
         uses: FirebaseExtended/action-hosting-deploy@v0
