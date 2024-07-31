@@ -16,21 +16,18 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v2
         with:
-          node-version: '16'  # Ensure Node.js 16
+          node-version: '18'  # Use Node.js 18
 
       - name: Install dependencies
         run: npm install --legacy-peer-deps
 
-      - name: Install cross-env
-        run: npm install cross-env
-
       - name: Build the project
-        run: cross-env NODE_OPTIONS=--openssl-legacy-provider npm run build
+        run: npm run build
 
       - name: Deploy to Firebase Hosting
         uses: FirebaseExtended/action-hosting-deploy@v0
         with:
           repoToken: '${{ secrets.GITHUB_TOKEN }}'
-          firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_CLONE_53F4B }}'
+          firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT }}'
           channelId: live
           projectId: clone-53f4b
