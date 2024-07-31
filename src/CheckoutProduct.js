@@ -1,6 +1,6 @@
 import React from 'react';
 import './CheckoutProduct.css';
-
+import
 
 function CheckoutProduct({ uniqueId, id, image, title, price, rating, hideButton, onRemoveFromBasket, isRemoved }) {
 
@@ -34,3 +34,4 @@ function CheckoutProduct({ uniqueId, id, image, title, price, rating, hideButton
 }
 
 export default CheckoutProduct;
+
