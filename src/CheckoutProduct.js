@@ -1,9 +1,9 @@
 import React from 'react';
 import './CheckoutProduct.css';
-import { useStateValue } from './StateProvider';
+
 
 function CheckoutProduct({ uniqueId, id, image, title, price, rating, hideButton, onRemoveFromBasket, isRemoved }) {
-    
+
 
     const removeFromBasket = () => {
         onRemoveFromBasket(uniqueId);
